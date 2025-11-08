@@ -18,6 +18,9 @@ Nexora_Project/
     ├── middlewares/
 ```
 
+![Nexora Screenshot](./assets/Screenshot33.png)
+
+
 🚀 Features
 Frontend (React + Vite)
 
