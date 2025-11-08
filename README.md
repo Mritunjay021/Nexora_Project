@@ -1,6 +1,6 @@
 # Nexora – Full-Stack E-Commerce Demo
 
-Nexora is a full-stack e-commerce demo application built with React + Vite (frontend) and Express.js + MongoDB (backend). It supports user & seller authentication, product management, cart syncing, address management, and order placement (COD + Stripe payments).
+Nexora is a full-stack e-commerce demo application built with React + Vite (frontend) and Express.js + MongoDB (backend). It supports user & seller authentication, product management, cart syncing, address management, and order placement (COD).
 
 📁 Project Structure
 ```
@@ -27,7 +27,7 @@ Frontend (React + Vite)
 - Product listing & details
 - Cart add/remove with backend sync
 - Address management
-- Order placement (COD + Stripe)
+- Order placement (COD)
 - Seller dashboard for product CRUD
 
 Backend (Express + MongoDB)
@@ -36,7 +36,6 @@ Backend (Express + MongoDB)
 - Product CRUD with Cloudinary uploads
 - Server-side cart storage
 - Address storage
-- Order processing with Stripe
 
 💻 Getting Started (Development)
 Prerequisites
@@ -62,8 +61,6 @@ CLOUDINARY_CLOUD_NAME=your_cloud_name
 CLOUDINARY_API_KEY=your_api_key
 CLOUDINARY_API_SECRET=your_api_secret
 
-STRIPE_SECRET_KEY=sk_test_...
-STRIPE_WEBHOOK_SECRET=whsec_...
 ```
 
 Install and start:
@@ -108,7 +105,7 @@ Vite runs on `http://localhost:5173` by default.
 
 - Project contains Vercel config for both client and server (`server/vercel.json`, `client/vercel.json`).
 - All environment variables must be configured on the hosting platform.
-- Stripe webhook requires a publicly accessible URL (use ngrok for local testing or configure webhooks in your hosting platform).
+- webhook requires a publicly accessible URL (use ngrok for local testing or configure webhooks in your hosting platform).
 
 📌 Useful File References
 
@@ -126,7 +123,6 @@ Vite runs on `http://localhost:5173` by default.
 - JWT_SECRET — Secret for signing JWT tokens stored in cookies.
 - SELLER_EMAIL / SELLER_PASSWORD — Seller credentials used by the simple seller auth.
 - CLOUDINARY_* — Required if you upload product images (used in `productController.js`).
-- STRIPE_SECRET_KEY / STRIPE_WEBHOOK_SECRET — Required for Stripe checkout & webhooks.
 - GEMINI_API_KEY — Optional: used by `geminiMCPServer.js` if you intend to run the MCP server.
 
 ## API summary (server)
@@ -159,8 +155,8 @@ Address:
 
 Orders:
 - POST /api/order/cod — user; body: { items, address } — place Cash-on-Delivery order.
-- POST /api/order/stripe — user; body: { items, address } — creates Stripe checkout session and returns session url.
-- POST /stripe (and /api/order/stripe/webhook) — Stripe webhook endpoint(s) for payment events. The server uses webhook secret to verify events.
+- POST /api/order/  — user; body: { items, address } — creates   checkout session and returns session url.
+- POST /  (and /api/order/ /webhook) —   webhook endpoint(s) for payment events. The server uses webhook secret to verify events.
 - GET /api/order/user — user orders
 - GET /api/order/seller — seller view of orders
 
@@ -170,7 +166,7 @@ Notes on authentication:
 ## Deployment notes
 
 - `server/vercel.json` and `client/vercel.json` exist — the repo appears prepared for Vercel deployment with the server as a Node function.
-- When deploying, set the same environment variables in your cloud environment (MongoDB URI, JWT secret, Cloudinary, Stripe keys, Seller credentials).
+- When deploying, set the same environment variables in your cloud environment (MongoDB URI, JWT secret, Cloudinary,   keys, Seller credentials).
 - If using Vercel, ensure that server `vercel.json` points to `server.js` and the build environment installs dependencies for the server.
 
 ## Testing & smoke checks
